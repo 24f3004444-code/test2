@@ -1,0 +1,32 @@
+name: Matrix Build with Artifacts
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        version: [14, 16, 18]  # Node.js versions
+        # You can add more dimensions like os: [ubuntu-latest, macos-latest, windows-latest]
+    steps:
+      # Step 1: Display matrix identifier
+      - name: matrix-28484cd
+        run: echo "Building for version ${{ matrix.version }}"
+
+      # Step 2: Generate a build artifact
+      - name: Generate build artifact
+        run: echo "Build output for version ${{ matrix.version }}" > output-${{ matrix.version }}.txt
+
+      # Step 3: Upload the generated artifact
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-28484cd-v${{ matrix.version }}
+          path: output-${{ matrix.version }}.txt
